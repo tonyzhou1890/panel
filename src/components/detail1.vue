@@ -5,6 +5,7 @@
         <h2>摘要</h2>
       </div>
       <div class="chart" ref="summarychart"></div>
+      <div class="chart" ref="summarychartv"></div>
     </div>
     <div class="cpu">
       <div class="title">
@@ -92,6 +93,40 @@ export default {
       };
       myChart.setOption(option);
     },
+    drawSummaryV(){
+      let myChart = this.$echarts.init(this.$refs.summarychartv);
+      let option = {
+        legend: {},
+        tooltip: {},
+        dataset: {
+          source: this.summary
+        },
+        xAxis: {
+          min: 0,
+          max: 100,
+        },
+        yAxis: {
+          type: 'category'
+        },
+        grid: {
+          left: 60
+        },
+        series: [
+          {
+            name: 'percent',
+            type: 'bar',
+            itemStyle: {
+              color: 'gold'
+            },
+            encode: {
+              x: 'percent',
+              y: 'part'
+            }
+          }
+        ]
+      };
+      myChart.setOption(option);
+    },
     drawCpu(){
       let myChart = this.$echarts.init(this.$refs.cpuchart);
       let option = {
@@ -105,11 +140,9 @@ export default {
         dataset: {
           source: this.cpu
         },
-        xAxis: [
-          {
-            type: 'category'
-          }
-        ],
+        xAxis:{
+          type: 'category'
+        },
         yAxis: {},
         series: [
           {
@@ -175,6 +208,7 @@ export default {
   },
   mounted(){
     this.drawSummary();
+    this.drawSummaryV();
     this.drawCpu();
     this.drawHardDisk();
   }
@@ -200,6 +234,10 @@ export default {
     .chart {
       width: 400px;
       height: 400px;
+      display: inline-block;
+      &:nth-child(3){
+        width: 600px;
+      }
     }
   }
   .cpu, .hard-disk {
