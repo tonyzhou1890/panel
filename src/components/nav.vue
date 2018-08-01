@@ -212,6 +212,7 @@ nav {
         left: -120px;
         color: @hbgc;
         display: none;
+        z-index: 100;
         &::before {
           content: '';
           display: inline-block;
