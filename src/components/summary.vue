@@ -307,4 +307,23 @@
     }
   }
 }
+
+@media screen and (max-width: 1600px){
+  .summary {
+    .s-main {
+      .safe {
+        > div {
+          .safe-status {
+            span {
+              margin-right: 70px;
+              &:last-child {
+                margin-right: 50px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>
