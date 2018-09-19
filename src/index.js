@@ -8,8 +8,8 @@ import icon from "./assets/source/font/iconfont.css";
 
 Vue.use(Router);
 Vue.use(common);
-console.log(Vue);
-new Vue({
+// console.log(Vue);
+var vue = new Vue({
   el: '#app',
   components: {
     panel

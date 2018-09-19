@@ -26,9 +26,10 @@
 </template>
 
 <script>
-import summary from "./summary.vue";
-import detail1 from "./detail1.vue";
-import Router from "vue-router";
+import summary from "./summary.vue"
+import detail1 from "./detail1.vue"
+import detailTwo from "./detailTwo.vue";
+import Router from "vue-router"
 const routes = [
   {
     path: '/',
@@ -44,7 +45,7 @@ const routes = [
   },
   {
     path: '/detail2',
-    redirect: '/summary'
+    component: detailTwo
   },
   {
     path: '/detail3',

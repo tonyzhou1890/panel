@@ -1,7 +1,7 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HTMLPlugin = require('html-webpack-plugin');
-const isDev = process.env.NODE_ENV = 'development';
+const isDev = process.env.NODE_ENV === 'development';
 const webpack = require('webpack');
 const prerenderSpaPlugin = require('prerender-spa-plugin');
 

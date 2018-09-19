@@ -95,11 +95,11 @@ export default {
     }
   },
   created(){
-    console.log(this.$refs.summarychart);
+    // console.log(this.$refs.summarychart);
   },
   methods: {
     drawSummary(){
-      console.log(this.$refs.summarychart);
+      // console.log(this.$refs.summarychart);
       let myChart = this.$echarts.init(this.$refs.summarychart);
       let option = {
         legend: {},
@@ -192,7 +192,7 @@ export default {
       myChart.setOption(option);
     },
     drawHardDisk(){
-      console.log(this.hardDisk);
+      // console.log(this.hardDisk);
       let myChart = this.$echarts.init(this.$refs.harddiskchart);
       let option = {
         legend: {},

@@ -82,7 +82,7 @@ export default {
   },
   created(){
     this.$axios.get("../src/assets/source/text/info.json").then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       this.info = [{
         title: '新消息',
         time: '2018'

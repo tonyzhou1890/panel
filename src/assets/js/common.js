@@ -3,7 +3,7 @@ import echarts from "echarts";
 
 const common = {};
 
-console.log(axios);
+// console.log(axios);
 
 common.install = function(Vue,options){
   Vue.prototype.$axios = axios;
