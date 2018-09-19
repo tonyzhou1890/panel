@@ -3,7 +3,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HTMLPlugin = require('html-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 const webpack = require('webpack');
-const prerenderSpaPlugin = require('prerender-spa-plugin');
+// const prerenderSpaPlugin = require('prerender-spa-plugin');
 
 const config = {
   mode: isDev ? 'development' : 'production',
@@ -67,10 +67,10 @@ const config = {
   },
   plugins: [
     new VueLoaderPlugin(),
-    new prerenderSpaPlugin({
-      staticDir: path.resolve(__dirname,'dist'),
-      routes: ['/','/summary','/detail1','/detail2','/detail3','/detail4']
-    }),
+    // new prerenderSpaPlugin({
+    //   staticDir: path.resolve(__dirname,'dist'),
+    //   routes: ['/','/summary','/detail1','/detail2','/detail3','/detail4']
+    // }),
     new HTMLPlugin({
       template: './src/index.html'
     })

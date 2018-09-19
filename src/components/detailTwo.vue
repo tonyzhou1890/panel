@@ -12,6 +12,18 @@
       </div>
       <div class="chart chart-2" ref="geo_two"></div>
     </div>
+    <div class="stage">
+      <div class="title">
+        <h2>图3</h2>
+      </div>
+      <div class="chart chart-3" ref="geo_three"></div>
+    </div>
+    <div class="stage">
+      <div class="title">
+        <h2>图4</h2>
+      </div>
+      <div class="chart chart-4" ref="geo_four"></div>
+    </div>
   </div>
 </template>
 
@@ -20,7 +32,9 @@ export default {
   data() {
     return {
       geoOne: [],
-      geoTwo: []
+      geoTwo: [],
+      geoThree: [],
+      geoFour: []
     };
   },
   methods: {
@@ -198,12 +212,184 @@ export default {
         .catch(e => {
           console.log(new Error(e));
         });
-    }
+    },
+    drawSH() {
+      let chart = this.$echarts.init(this.$refs.geo_three);
+      chart.showLoading();
+      this.getGeoJSON("./src/assets/data/shanghai.json")
+        .then(data => {
+          this.geoThree = data.data;
+          chart.hideLoading();
+          this.$echarts.registerMap("SH", this.geoThree);
+
+          chart.setOption({
+            title: {
+              text: "上海"
+            },
+            tooltip: {
+              trigger: "item",
+              formatter: "{b}<br/>{c} (台)"
+            },
+            toolbox: {
+              show: true,
+              orient: "vertical",
+              left: "right",
+              top: "center",
+              feature: {
+                dataView: { readOnly: false },
+                restore: {},
+                saveAsImage: {}
+              }
+            },
+            visualMap: {
+              min: 800,
+              max: 50000,
+              text: ["High", "Low"],
+              realtime: false,
+              calculable: true,
+              inRange: {
+                color: ["lightskyblue", "yellow", "orangered"]
+              }
+            },
+            series: [
+              {
+                name: "上海",
+                type: "map",
+                mapType: "SH", // 自定义扩展图表类型
+                itemStyle: {
+                  normal: { label: { show: true } },
+                  emphasis: { label: { show: true } }
+                },
+                data: [
+                  { name: "虹口区", value: 20057.34 },
+                  { name: "嘉定区", value: 15477.48 },
+                  { name: "闵行区", value: 31686.1 },
+                  { name: "宝山区", value: 6992.6 },
+                  { name: "长宁区", value: 44045.49 },
+                  { name: "奉贤区", value: 40689.64 },
+                  { name: "金山区", value: 37659.78 },
+                  { name: "静安区", value: 45180.97 },
+                  { name: "普陀区", value: 55204.26 },
+                  { name: "青浦区", value: 21900.9 },
+                  { name: "松江区", value: 4918.26 },
+                  { name: "徐汇区", value: 5881.84 },
+                  { name: "杨浦区", value: 4178.01 },
+                  { name: "闸北区", value: 2227.92 },
+                  { name: "黄浦区", value: 2180.98 },
+                  { name: "浦东新区", value: 9172.94 }
+                ],
+                // 自定义名称映射
+                nameMap: {
+                  虹口区: '虹口区',
+                  嘉定区: '嘉定区',
+                  闵行区: '闵行区',
+                  宝山区: '宝山区',
+                  长宁区: '长宁区',
+                  奉贤区: '奉贤区',
+                  金山区: '金山区',
+                  静安区: '静安区',
+                  普陀区: '普陀区',
+                  青浦区: '青浦区',
+                  松江区: '松江区',
+                  徐汇区: '徐汇区',
+                  杨浦区: '杨浦区',
+                  闸北区: '闸北区',
+                  黄浦区: '黄浦区',
+                  浦东新区: '浦东新区'
+                }
+              }
+            ]
+          });
+        })
+        .catch(e => {
+          console.log(new Error(e));
+        });
+    },
+    drawSZ() {
+      let chart = this.$echarts.init(this.$refs.geo_four);
+      chart.showLoading();
+      this.getGeoJSON("./src/assets/data/suzhou.json")
+        .then(data => {
+          this.geoFour = data.data;
+          chart.hideLoading();
+          this.$echarts.registerMap("SZ", this.geoFour);
+
+          chart.setOption({
+            title: {
+              text: "苏州"
+            },
+            tooltip: {
+              trigger: "item",
+              formatter: "{b}<br/>{c} (台)"
+            },
+            toolbox: {
+              show: true,
+              orient: "vertical",
+              left: "right",
+              top: "center",
+              feature: {
+                dataView: { readOnly: false },
+                restore: {},
+                saveAsImage: {}
+              }
+            },
+            visualMap: {
+              min: 800,
+              max: 50000,
+              text: ["High", "Low"],
+              realtime: false,
+              calculable: true,
+              inRange: {
+                color: ["lightskyblue", "yellow", "orangered"]
+              }
+            },
+            series: [
+              {
+                name: "苏州",
+                type: "map",
+                mapType: "SZ", // 自定义扩展图表类型
+                itemStyle: {
+                  normal: { label: { show: true } },
+                  emphasis: { label: { show: true } }
+                },
+                data: [
+                  { name: "常熟市", value: 20057.34 },
+                  { name: "虎丘区", value: 15477.48 },
+                  { name: "昆山市", value: 31686.1 },
+                  { name: "太仓市", value: 6992.6 },
+                  { name: "吴江区", value: 44045.49 },
+                  { name: "相城区", value: 40689.64 },
+                  { name: "张家港市", value: 37659.78 },
+                  { name: "吴中区", value: 45180.97 },
+                  { name: "姑苏区", value: 55204.26 }
+                ],
+                // 自定义名称映射
+                nameMap: {
+                  常熟市: '常熟市',
+                  虎丘区: '虎丘区',
+                  昆山市: '昆山市',
+                  太仓市: '太仓市',
+                  吴江区: '吴江区',
+                  相城区: '相城区',
+                  张家港市: '张家港市',
+                  吴中区: '吴中区',
+                  姑苏区: '姑苏区'
+                }
+              }
+            ]
+          });
+        })
+        .catch(e => {
+          console.log(new Error(e));
+        });
+    },
   },
   created() {
     this.$nextTick(() => {
       this.drawHK()
       this.drawCM()
+      this.drawSH()
+      this.drawSZ()
     });
   }
 };
@@ -224,8 +410,8 @@ export default {
     }
   }
   .chart {
-    width: 600px;
-    height: 450px;
+    width: 1000px;
+    height: 750px;
   }
 }
 </style>
