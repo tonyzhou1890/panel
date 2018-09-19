@@ -216,7 +216,7 @@ export default {
     drawSH() {
       let chart = this.$echarts.init(this.$refs.geo_three);
       chart.showLoading();
-      this.getGeoJSON("./src/assets/data/shanghai.json")
+      this.getGeoJSON("./src/assets/data/shanghai_2.json")
         .then(data => {
           this.geoThree = data.data;
           chart.hideLoading();
@@ -261,6 +261,7 @@ export default {
                   emphasis: { label: { show: true } }
                 },
                 data: [
+                  { name: "崇明区", value: 20057.34 },
                   { name: "虹口区", value: 20057.34 },
                   { name: "嘉定区", value: 15477.48 },
                   { name: "闵行区", value: 31686.1 },
@@ -280,6 +281,7 @@ export default {
                 ],
                 // 自定义名称映射
                 nameMap: {
+                  崇明区: '崇明区',
                   虹口区: '虹口区',
                   嘉定区: '嘉定区',
                   闵行区: '闵行区',
@@ -308,7 +310,7 @@ export default {
     drawSZ() {
       let chart = this.$echarts.init(this.$refs.geo_four);
       chart.showLoading();
-      this.getGeoJSON("./src/assets/data/suzhou.json")
+      this.getGeoJSON("./src/assets/data/suzhou_2.json")
         .then(data => {
           this.geoFour = data.data;
           chart.hideLoading();
@@ -410,8 +412,8 @@ export default {
     }
   }
   .chart {
-    width: 1000px;
-    height: 750px;
+    width: 1200px;
+    height: 650px;
   }
 }
 </style>
