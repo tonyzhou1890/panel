@@ -1,6 +1,8 @@
 import axios from "axios";
 import echarts from "echarts";
 
+axios.defaults.withCredentials=true;//让ajax携带cookie
+
 const common = {};
 
 // console.log(axios);
