@@ -253,19 +253,71 @@ export default {
               text: ["High", "Low"],
               realtime: false,
               calculable: true,
+              seriesIndex: [1],
               inRange: {
-                color: ["lightskyblue", "yellow", "orangered"]
+                color: ["lightskyblue", "blue"]
+              }
+            },
+            geo: {
+              map: "SH",
+                roam: true,
+                scaleLimit: {
+                  min: 1,
+                  max: 5
+                },
+              label: {
+                normal: {
+                  show: true,
+                  textStyle: {
+                    color: "rgba(0,0,0,0.4)"
+                  }
+                }
+              },
+              itemStyle: {
+                normal: {
+                  borderColor: "rgba(0, 0, 0, 0.2)"
+                },
+                emphasis: {
+                  areaColor: null,
+                  shadowOffsetX: 0,
+                  shadowOffsetY: 0,
+                  shadowBlur: 20,
+                  borderWidth: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)"
+                }
               }
             },
             series: [
               {
+                type: "scatter",
+                coordinateSystem: "geo",
+                data: [
+                  {
+                    name: "天居玲珑湾",
+                    value: [7734, 4442, 10000]
+                  }
+                ],
+                symbolSize: 20,
+                symbolRotate: 35,
+                label: {
+                  show: false
+                },
+                tooltip: {
+                  trigger: "item",
+                  formatter: (params) => {
+                    return `${params.data.name}：${params.data.value[2]}台`
+                  }
+                },
+                itemStyle: {
+                  normal: {
+                    color: "#F06C00"
+                  }
+                }
+              },
+              {
                 name: "上海",
                 type: "map",
-                mapType: "SH", // 自定义扩展图表类型
-                itemStyle: {
-                  normal: { label: { show: true } },
-                  emphasis: { label: { show: true } }
-                },
+                geoIndex: 0,
                 data: [
                   { name: "崇明区", value: 20057.34 },
                   { name: "虹口区", value: 20057.34 },
@@ -394,7 +446,7 @@ export default {
         });
     },
     drawChinaAir() {
-      let chart = this.$echarts.init(this.$refs.geo_five)
+      let chart = this.$echarts.init(this.$refs.geo_five);
       var geoCoordMap = {
         海门: [121.15, 31.89],
         鄂尔多斯: [109.781327, 39.608266],
@@ -870,18 +922,18 @@ export default {
             }
           }
         ]
-      }
+      };
 
-      chart.setOption(option)
+      chart.setOption(option);
     }
   },
   created() {
     this.$nextTick(() => {
-      this.drawHK()
-      this.drawCM()
-      this.drawSH()
-      this.drawSZ()
-      this.drawChinaAir()
+      this.drawHK();
+      this.drawCM();
+      this.drawSH();
+      this.drawSZ();
+      this.drawChinaAir();
     });
   }
 };
