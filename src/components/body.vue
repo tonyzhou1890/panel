@@ -30,6 +30,7 @@ import summary from "./summary.vue"
 import detail1 from "./detail1.vue"
 import detailTwo from "./detailTwo.vue"
 import detailThree from "./detailThree.vue"
+import detailFour from "./detailFour.vue"
 import Router from "vue-router"
 const routes = [
   {
@@ -54,7 +55,7 @@ const routes = [
   },
   {
     path: '/detail4',
-    redirect: '/summary'
+    component: detailFour
   }
 ];
 
