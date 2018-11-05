@@ -20,6 +20,12 @@
     </div>
     <div class="stage">
       <div class="title">
+        <h2>图3-2</h2>
+      </div>
+      <div class="chart chart-3-2" ref="geo_three_two"></div>
+    </div>
+    <div class="stage">
+      <div class="title">
         <h2>图4</h2>
       </div>
       <div class="chart chart-4" ref="geo_four"></div>
@@ -29,6 +35,12 @@
         <h2>图5</h2>
       </div>
       <div class="chart chart-5" ref="geo_five"></div>
+    </div>
+    <div class="stage">
+      <div class="title">
+        <h2>图6</h2>
+      </div>
+      <div class="chart chart-6" ref="geo_six"></div>
     </div>
   </div>
 </template>
@@ -41,7 +53,9 @@ export default {
       geoOne: [],
       geoTwo: [],
       geoThree: [],
-      geoFour: []
+      geoThreeTwo: [], 
+      geoFour: [],
+      geoSix: []
     };
   },
   methods: {
@@ -104,6 +118,7 @@ export default {
                 name: "香港18区人口密度",
                 type: "map",
                 mapType: "HK", // 自定义扩展图表类型
+                roam: true,
                 itemStyle: {
                   normal: { label: { show: true } },
                   emphasis: { label: { show: true } }
@@ -360,6 +375,168 @@ export default {
               }
             ]
           });
+        })
+        .catch(e => {
+          console.log(new Error(e));
+        });
+    },
+    drawSHA() {
+      let chart = this.$echarts.init(this.$refs.geo_three_two);
+      chart.showLoading();
+      this.getGeoJSON("./src/assets/data/上海市.json")
+        .then(data => {
+          this.geoThreeTwo = data.data;
+          chart.hideLoading();
+          this.$echarts.registerMap("SHA", this.geoThreeTwo);
+
+          chart.setOption({
+            title: {
+              text: "上海"
+            },
+            tooltip: {
+              trigger: "item",
+              formatter: "{b}<br/>{c} (台)"
+            },
+            toolbox: {
+              show: true,
+              orient: "vertical",
+              left: "right",
+              top: "center",
+              feature: {
+                dataView: { readOnly: false },
+                restore: {},
+                saveAsImage: {}
+              }
+            },
+            // visualMap: {
+            //   min: 800,
+            //   max: 50000,
+            //   text: ["High", "Low"],
+            //   realtime: false,
+            //   calculable: true,
+            //   seriesIndex: [],
+            //   inRange: {
+            //     color: ["lightskyblue", "blue"]
+            //   }
+            // },
+            geo: {
+              map: "SHA",
+                roam: true,
+                scaleLimit: {
+                  min: 1,
+                  max: 5
+                },
+              label: {
+                normal: {
+                  show: true,
+                  textStyle: {
+                    color: "rgba(255,255,255,0.7)"
+                  }
+                }
+              },
+              itemStyle: {
+                normal: {
+                  areaColor: 'rgba(33,33,33,.7)',
+                  borderColor: "rgba(255, 255, 0, 0.4)",
+                  borderWidth: 1
+                },
+                emphasis: {
+                  areaColor: null,
+                  shadowOffsetX: 0,
+                  shadowOffsetY: 0,
+                  shadowBlur: 20,
+                  borderWidth: 0,
+                  shadowColor: "rgba(0, 0, 0, 0.5)"
+                }
+              }
+            },
+            series: [
+              {
+                type: "scatter",
+                coordinateSystem: "geo",
+                data: [
+                  {
+                    name: "天居玲珑湾",
+                    value: [121.215146, 31.4087, 10000]
+                  }
+                ],
+                symbolSize: 20,
+                symbolRotate: 35,
+                label: {
+                  show: false
+                },
+                tooltip: {
+                  trigger: "item",
+                  formatter: (params) => {
+                    return `${params.data.name}：${params.data.value[2]}台`
+                  }
+                },
+                itemStyle: {
+                  normal: {
+                    color: "#F06C00"
+                  }
+                }
+              },
+              {
+                name: "上海",
+                type: "map",
+                map: 'SHA',
+                geoIndex: 0,
+                data: [
+                  { name: "崇明区", value: 20057.34 },
+                  { name: "虹口区", value: 20057.34 },
+                  { name: "嘉定区", value: 15477.48 },
+                  { name: "闵行区", value: 31686.1 },
+                  { name: "宝山区", value: 6992.6 },
+                  { name: "长宁区", value: 44045.49 },
+                  { name: "奉贤区", value: 40689.64 },
+                  { name: "金山区", value: 37659.78 },
+                  { name: "静安区", value: 45180.97 },
+                  { name: "普陀区", value: 55204.26 },
+                  { name: "青浦区", value: 21900.9 },
+                  { name: "松江区", value: 4918.26 },
+                  { name: "徐汇区", value: 5881.84 },
+                  { name: "杨浦区", value: 4178.01 },
+                  { name: "闸北区", value: 2227.92 },
+                  { name: "黄浦区", value: 2180.98 },
+                  { name: "浦东新区", value: 9172.94 }
+                ],
+                // 自定义名称映射
+                nameMap: {
+                  崇明区: "崇明区",
+                  虹口区: "虹口区",
+                  嘉定区: "嘉定区",
+                  闵行区: "闵行区",
+                  宝山区: "宝山区",
+                  长宁区: "长宁区",
+                  奉贤区: "奉贤区",
+                  金山区: "金山区",
+                  静安区: "静安区",
+                  普陀区: "普陀区",
+                  青浦区: "青浦区",
+                  松江区: "松江区",
+                  徐汇区: "徐汇区",
+                  杨浦区: "杨浦区",
+                  闸北区: "闸北区",
+                  黄浦区: "黄浦区",
+                  浦东新区: "浦东新区"
+                },
+                label: {
+                  show: false
+                },
+                itemStyle: {
+                  normal: {
+                    areaColor: 'orange',
+                    borderColor: '#000',
+                    borderWidth: 10
+                  }
+                }
+              }
+            ]
+          });
+          chart.on('click', (params) => {
+            console.log(params)
+          })
         })
         .catch(e => {
           console.log(new Error(e));
@@ -925,6 +1102,9 @@ export default {
       };
 
       chart.setOption(option);
+    },
+    drawPic() {
+      
     }
   },
   created() {
@@ -932,6 +1112,7 @@ export default {
       this.drawHK();
       this.drawCM();
       this.drawSH();
+      this.drawSHA();
       this.drawSZ();
       this.drawChinaAir();
     });

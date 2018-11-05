@@ -7,7 +7,7 @@
       @mousemove="mousemove"
       @mouseup="mouseup"
       @wheel="scale">
-      <img src="../assets/source/image/map.jpg">
+      <img src="../assets/source/image/tjllw.jpg">
       <div class="mask"></div>
       <div class="mark-layer">
         <div
@@ -82,7 +82,7 @@ export default {
 <style>
 .map-container {
   width: 800px;
-  height: 300px;
+  height: 500px;
   overflow: hidden;
   position: relative;
 }
