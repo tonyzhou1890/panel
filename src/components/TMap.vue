@@ -6,14 +6,14 @@
       @mousedown="mousedown"
       @mousemove="mousemove"
       @mouseup="mouseup"
-      @wheel="scale">
+      @wheel.prevent="scale">
       <img :src="map.url">
       <div class="mask"></div>
       <div class="mark-layer">
         <div
           v-for="(item, index) in data"
           :key="index"
-          :style="'left:' + item.xPercent + '%; top: ' + item.yPercent + '%' "
+          :style="getStyle(item)"
           class="mark">
           <img
             class="map-elevator"
@@ -40,9 +40,10 @@ export default {
       map: {
         url: "/src/assets/source/image/tjllw.png",
         bounds: [
-          [121.205322,31.402633],
-          [121.209062,31.404781],
-          [121.210634,31.402951]
+          [121.211597,31.408939],
+          [121.215522,31.411146],
+          // [121.210634,31.402951]
+          [121.21713,31.40927]
         ]
       },
       data: [
@@ -50,6 +51,7 @@ export default {
           situation: '56#',
           xPercent: 8.84,
           yPercent: 17.16,
+          position: [121.212152,31.408764],
           floor: 3,
           isFault: 1,
           isOffLine: 0
@@ -58,6 +60,7 @@ export default {
           situation: '18#右',
           xPercent: 46.47,
           yPercent: 58.60,
+          position: [121.214131,31.408703],
           floor: 3,
           isFault: 1,
           isOffLine: 0
@@ -66,6 +69,7 @@ export default {
           situation: '22#右',
           xPercent: 66.26,
           yPercent: 59.54,
+          position: [121.214919, 31.409119],
           floor: 3,
           isFault: 1,
           isOffLine: 0
@@ -146,6 +150,7 @@ export default {
           situation: '02#右',
           xPercent: 89.21,
           yPercent: 76.60,
+          position: [121.216026, 31.409258],
           floor: 3,
           isFault: 1,
           isOffLine: 0
@@ -516,15 +521,54 @@ export default {
     mouseup(e) {
       this.mouseDown = false
     },
+    getStyle(item) {
+      if (item.position) {
+        return `left: ${item.position[0]}%;top: ${item.position[1]}%`
+      }
+      return `left: ${item.xPercent}%;top: ${item.yPercent}%`
+    },
     generate() {
       this.data.map(item => {
         item.isFault = Math.random() > 0.95 ? 1 : 0
         item.isOffLine = Math.random() > 0.95 ? 1 : 0
         item.floor = Math.random() > 0.1 ? Math.floor(Math.random() * 20) : null
       })
+    },
+    // 求垂足
+    getFoot(start, end, pt) {
+      const foot = []
+      const dx = start[0] - end[0]
+      const dy = start[1] - end[1]
+      let k = (pt[0] - start[0]) * (start[0] - end[0]) + (pt[1] - start[1]) * (start[1] - end[1])
+      k /= dx * dx + dy * dy
+      foot[0] = start[0] + k * dx
+      foot[1] = start[1] + k * dy
+      return foot
+    },
+    // 求距离
+    getDistance(start, end) {
+      return Math.sqrt(Math.pow(start[0] - end[0], 2) + Math.pow(start[1] - end[1], 2))
+    },
+    // 求指定位置在图上的百分比
+    getPercent(leftTop, rightTop, rightBottom, point, foot) {
+      const percent = []
+      percent[0] = this.getDistance(leftTop, foot) / this.getDistance(leftTop, rightTop) * 100
+      percent[1] = this.getDistance(point, foot) / this.getDistance(rightTop, rightBottom) * 100
+      return percent
+    },
+    // 计算经纬度
+    getLongitude() {
+      // const k2 = (this.map.bounds[2][1] - this.map.bounds[])
     }
   },
   created() {
+    this.data.map(item => {
+      if (item.position) {
+        const foot = this.getFoot(this.map.bounds[0], this.map.bounds[1], item.position)
+        const p = this.getPercent(this.map.bounds[0], this.map.bounds[1], this.map.bounds[2], item.position, foot)
+        item.position = p
+      }
+    })
     this.inter = setInterval(() => {
       this.generate()
     }, 3000)
@@ -572,6 +616,7 @@ export default {
 
 .mark .map-elevator {
   width: 100%;
+  cursor: pointer;
   color: #8a2be2;
 }
 
