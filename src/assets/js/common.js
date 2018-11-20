@@ -1,5 +1,6 @@
-import axios from "axios";
-import echarts from "echarts";
+import axios from "axios"
+import echarts from "echarts"
+import 'echarts/extension/bmap/bmap'
 
 axios.defaults.withCredentials=true;//让ajax携带cookie
 

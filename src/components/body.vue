@@ -17,6 +17,9 @@
         <li>
           <router-link to="detail4"><p>详情4</p></router-link>
         </li>
+        <li>
+          <router-link to="detail5"><p>echcarts+百度地图</p></router-link>
+        </li>
       </ul>
     </div>
     <div class="content fl">
@@ -31,6 +34,7 @@ import detail1 from "./detail1.vue"
 import detailTwo from "./detailTwo.vue"
 import detailThree from "./detailThree.vue"
 import detailFour from "./detailFour.vue"
+import detailFive from "./detailFive.vue"
 import Router from "vue-router"
 const routes = [
   {
@@ -56,6 +60,10 @@ const routes = [
   {
     path: '/detail4',
     component: detailFour
+  },
+  {
+    path: '/detail5',
+    component: detailFive
   }
 ];
 
