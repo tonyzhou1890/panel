@@ -144,104 +144,97 @@ const mapStyle = {
   ]
 }
 export default {
+  data() {
+    return {
+      regions: [],
+      curRegions: [],
+      chart: null
+    }
+  },
   methods: {
     drawRiverWater() {
-      let chart = this.$echarts.init(this.$refs.riverWater);
-      // 数据
-      let data = [
-        {
-          isFault: 0,
-          latitude: 30.83024,
-          longitude: 121.235825,
-          town: "龙士路",
-          address: "槽坊河1#"
-        },
-        {
-          isFault: 0,
-          latitude: 30.835428,
-          longitude: 121.211006,
-          town: "漾平路",
-          address: "红光河桥4#"
-        }
-      ];
-      // 坐标点
-      let coordsOriginArr = [];
-      data.map(item => {
-        coordsOriginArr.push(new BMap.Point(item.longitude, item.latitude));
-      });
-      // 转换回调
-      const translateCallback = res => {
-        console.log(res);
-        if (res.status === 0) {
-          res = res.points;
-          const newData = [];
-          res.map((item, index) => {
-            newData[index] = [item.lng, item.lat, data[index]];
-          });
-          chart.setOption({
-            title: {
-              text: "吕巷镇河道水设备分布",
-              textStyle: {
-                color: 'white',
-                align: 'center'
-              },
-              tooltip: {
+      this.chart = this.$echarts.init(this.$refs.riverWater);
+      this.draw()
+    },
+    // 绘制函数
+    draw() {
+      this.chart.setOption({
+        title: {
+          text: "行政区划",
+          textStyle: {
+            color: 'white',
+            align: 'center'
+          },
+          tooltip: {
 
-              }
+          }
+        },
+        color: ['white'],
+        bmap: {
+          center: [121.182812, 30.831685],
+          zoom: 8,
+          roam: true,
+          mapStyle
+        },
+        series: [
+          {
+            name: "河道水设备",
+            type: "scatter",
+            coordinateSystem: "bmap",
+            data: this.curRegions,
+            symbolSize: 20,
+            label: {
+              formatter: (params) => {
+                return params.data[2].label
+              },
+              position: 'right',
+              show: true
             },
-            color: ['white'],
-            bmap: {
-              center: [121.182812, 30.831685],
-              zoom: 13,
-              roam: true,
-              mapStyle
-            },
-            series: [
-              {
-                name: "河道水设备",
-                type: "scatter",
-                coordinateSystem: "bmap",
-                data: newData,
-                symbolSize: 20,
-                label: {
-                  formatter: (params) => {
-                    return params.data[2].address
-                  },
-                  position: 'right',
-                  show: true
-                },
-                animation: false
-              }
-            ]
-          });
-          // 注册事件处理器
-          chart.on('click', e => {
-            console.log(e)
-          })
-          chart.on('bmaproam', this._.debounce((params) => {
-            console.log(params)
-            console.log(chart.getOption().bmap[0].zoom)
-            console.log(chart.getOption())
-            const bmap = chart.getModel().getComponent('bmap').getBMap();
-            const bs = bmap.getBounds()
-            const sw = bs.getSouthWest()
-            const ne = bs.getNorthEast()
-            console.log(sw, ne)
-          }, 200))
-          // const bmap = chart.getModel().getComponent('bmap').getBMap();
-          // bmap.addEventListener('zoomend', data => {
-          //   console.log(data)
-          //   console.log(chart.getOption())
-          // })
-        } else {
-          console.log(res.status);
-        }
-      };
-      // 1秒后转换
-      setTimeout(() => {
-        let convertor = new BMap.Convertor();
-        convertor.translate(coordsOriginArr, 1, 5, translateCallback);
-      }, 1000);
+            animation: false
+          }
+        ]
+      });
+      // 注册事件处理器
+      this.chart.on('click', e => {
+        console.log(e)
+      })
+      this.chart.on('bmaproam', this._.debounce((params) => {
+        this.getData()
+      }, 200))
+      this.getData()
+    },
+    // 获取数据
+    getData() {
+      this.chart.showLoading()
+      this.$axios
+        .get("./src/assets/data/region.json")
+        .then(data => {
+          this.regions = data.data
+          const option = this.chart.getOption()
+          const zoom = option.bmap[0].zoom
+          const bmap = this.chart.getModel().getComponent('bmap').getBMap();
+          const bs = bmap.getBounds()
+          const sw = bs.getSouthWest()
+          const ne = bs.getNorthEast()
+          console.log(option)
+          let temp = []
+          if (zoom < 10) {
+            temp = this.regions[0]
+          } else if (zoom < 12) {
+            temp = this.regions[0].children[0]
+          } else if (zoom < 15) {
+            temp = this.regions[0].children[0].children[0]
+          }
+          this.curRegions[0] = [temp.lng, temp.lat, temp]
+          option.series[0].data = this.curRegions
+          this.chart.setOption(option)
+          this.regions = data.data
+          this.chart.hideLoading()
+        })
+        .catch(e => {
+          console.log(e)
+          this.chart.hideLoading()
+        })
     }
   },
   mounted() {

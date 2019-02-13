@@ -670,6 +670,9 @@ export default {
           chart.on("click", params => {
             console.log(params);
           });
+          chart.on('geoRoam', params => {
+            console.log(params)
+          })
         })
         .catch(e => {
           console.log(new Error(e));

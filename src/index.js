@@ -7,6 +7,9 @@ import icon from "./assets/source/font/iconfont.css";
 
 Vue.use(Router);
 Vue.use(common);
+
+import debounce from 'lodash/debounce'
+Vue.prototype._ = {debounce}
 // console.log(Vue);
 var vue = new Vue({
   el: '#app',
