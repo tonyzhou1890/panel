@@ -27,6 +27,7 @@
     "puppeteer": "^1.6.2",
     "style-loader": "^0.21.0",
     "vue": "^2.5.16",
+    "vue-amap": "^0.5.10",
     "vue-loader": "^15.2.6",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.16",

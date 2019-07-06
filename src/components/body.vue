@@ -23,6 +23,9 @@
         <li>
           <router-link to="detail6"><p>echcarts+百度地图(层级显示)</p></router-link>
         </li>
+        <li>
+          <router-link to="detailVueAmap"><p>VueAmap</p></router-link>
+        </li>
       </ul>
     </div>
     <div class="content fl">
@@ -39,6 +42,7 @@ import detailThree from "./detailThree.vue"
 import detailFour from "./detailFour.vue"
 import detailFive from "./detailFive.vue"
 import detailSix from "./detailSix.vue"
+import detailVueAmap from './detailVueAmap.vue'
 import Router from "vue-router"
 const routes = [
   {
@@ -72,6 +76,10 @@ const routes = [
   {
     path: '/detail6',
     component: detailSix
+  },
+  {
+    path: '/detailVueAmap',
+    component: detailVueAmap
   }
 ];
 
