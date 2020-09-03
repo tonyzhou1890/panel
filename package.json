@@ -24,7 +24,7 @@
     "less": "^3.8.0",
     "less-loader": "^4.1.0",
     "prerender-spa-plugin": "^3.4.0",
-    "puppeteer": "^1.6.2",
+    "puppeteer": "^1.13.0",
     "style-loader": "^0.21.0",
     "vue": "^2.5.16",
     "vue-amap": "^0.5.10",
